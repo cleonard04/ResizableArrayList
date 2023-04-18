@@ -14,6 +14,21 @@ public class ResizableArrayList<E> {
         elements[size++] = element;
     }
 
+    public void add(int index, E element) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        if (size == elements.length) {
+            resize();
+        }
+        // Shift elements to the right to make space for the new element
+        for (int i = size; i > index; i--) {
+            elements[i] = elements[i-1];
+        }
+        elements[index] = element;
+        size++;
+    }
+
     public E get(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size " + index);
@@ -30,7 +45,138 @@ public class ResizableArrayList<E> {
         elements = newElements;
     }
 
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
+        size = 0;
+    }
+
+    public boolean contains(E element) {
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(element)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int indexOf(E element) {
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+        }
+
+        E removedElement = (E) elements[index];
+
+        for (int i = index; i < size - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
+
+        size--;
+        elements[size] = null;
+
+        return removedElement;
+    }
+
+    public boolean remove(E element) {
+        if (element == null) {
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == null) {
+                    remove(i);
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (element.equals(elements[i])) {
+                    remove(i);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public E set(int index, E element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+        }
+
+        E oldElement = (E) elements[index];
+        elements[index] = element;
+        return oldElement;
+    }
+
     public int size() {
         return size;
+    }
+
+    public Object[] toArray() {
+        Object[] arr = new Object[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = elements[i];
+        }
+        return arr;
+    }
+
+
+
+
+    public static void main(String[] args) {
+        ResizableArrayList<Integer> list = new ResizableArrayList<>();
+
+        // Testing the add method
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+
+        // Testing the get method
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("Element at index " + i + " is " + list.get(i));
+        }
+
+        // Testing the set method
+        list.set(5, 50);
+        System.out.println("Element at index 5 is now " + list.get(5));
+
+        // Testing the remove method with index
+        int removedElement = list.remove(3);
+        System.out.println("Removed element: " + removedElement);
+
+        // Testing the remove method with element
+        boolean isRemoved = list.remove(Integer.valueOf(7));
+        System.out.println("Element 7 is removed? " + isRemoved);
+
+        // Testing the clear method
+        list.clear();
+        System.out.println("List is cleared, size: " + list.size());
+
+        // Testing the contains method
+        System.out.println("Does list contain 4? " + list.contains(4));
+
+        // Testing the indexOf method
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        System.out.println("Index of 20: " + list.indexOf(20));
+
+        // Testing the toArray method
+        Object[] arr = list.toArray();
+        for (Object obj : arr) {
+            System.out.println("Element in array: " + obj);
+        }
     }
 }
