@@ -1,4 +1,5 @@
 public class ResizableArrayList<E> {
+
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 10;
     private Object[] elements;
@@ -139,44 +140,73 @@ public class ResizableArrayList<E> {
         ResizableArrayList<Integer> list = new ResizableArrayList<>();
 
         // Testing the add method
+        System.out.println("\nTesting the add method");
+        if (list.isEmpty()) { System.out.println("List is empty"); }
+        else { list.clear(); }
         for (int i = 0; i < 10; i++) {
             list.add(i);
         }
+        for (int i = 0; i < list.size(); i++) { System.out.println(list.get(i)); }
+
+        // Testing the 2nd add method
+        list.add(0,99);
+        list.add(list.size(),10000);
+        list.add(list.size()/2, 123);
+        System.out.println("\nTesting the 2nd add method");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
 
         // Testing the get method
+        System.out.println("\nTesting the get method");
         for (int i = 0; i < list.size(); i++) {
             System.out.println("Element at index " + i + " is " + list.get(i));
         }
 
         // Testing the set method
+        System.out.println("\nTesting the set method");
         list.set(5, 50);
         System.out.println("Element at index 5 is now " + list.get(5));
 
         // Testing the remove method with index
+        System.out.println("\nTesting the remove method with index");
         int removedElement = list.remove(3);
         System.out.println("Removed element: " + removedElement);
 
         // Testing the remove method with element
+        System.out.println("\nTesting the remove method with element");
         boolean isRemoved = list.remove(Integer.valueOf(7));
         System.out.println("Element 7 is removed? " + isRemoved);
 
         // Testing the clear method
+        System.out.println("\nTesting the clear method");
         list.clear();
         System.out.println("List is cleared, size: " + list.size());
 
         // Testing the contains method
+        System.out.println("\nTesting the contains method");
         System.out.println("Does list contain 4? " + list.contains(4));
+        list.add(4);
+        System.out.println("#just added 4 to list\nDoes list contain 4? " + list.contains(4));
 
         // Testing the indexOf method
+        System.out.println("\nTesting the indexOf method");
         list.add(10);
         list.add(20);
         list.add(30);
         System.out.println("Index of 20: " + list.indexOf(20));
 
         // Testing the toArray method
+        System.out.println("\nTesting the toArray method");
         Object[] arr = list.toArray();
         for (Object obj : arr) {
             System.out.println("Element in array: " + obj);
         }
+
+        // Testing the isEmpty method
+        System.out.println("\nTesting the isEmpty method");
+        System.out.println(list.isEmpty());
+        list.clear();
+        System.out.println(list.isEmpty());
     }
 }
